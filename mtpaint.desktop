@@ -1,0 +1,12 @@
+[Desktop Entry]
+Name=mtPaint
+Comment=Simple painting program
+Comment[pl]=Prosty program graficzny
+TryExec=mtpaint
+Exec=mtpaint
+Icon=mtpaint.xpm
+Terminal=false
+Type=Application
+Encoding=UTF-8
+Categories=Graphics;RasterGraphics;
+# vi: encoding=utf-8
