@@ -1,4 +1,3 @@
-#
 Summary:	A simple painting program
 Summary(pl):	Prosty program graficzny
 Name:		mtpaint
@@ -6,7 +5,7 @@ Version:	2.30
 Release:	1
 License:	GPL v2
 Group:		X11/Applications/Graphics
-Source0:	http://dl.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
+Source0:	http://dl.sourceforge.net/mtpaint/%{name}-%{version}.tar.bz2
 # Source0-md5:	8582e791cf781d2f6ba85460823da247
 Source1:	%{name}.desktop
 URL:		http://mtpaint.sourceforge.net/
@@ -24,22 +23,19 @@ Requires:	shared-mime-info
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
-A simple GTK paint program.
+A simple GTK+ paint program.
 
 %description -l pl
-Prosty program graficzny oparty na bibliotece GTK.
-
+Prosty program graficzny oparty na bibliotece GTK+.
 
 %prep
 %setup -q
-
 
 %build
 %configure man pod intl
 echo 'LDFLAG += %{rpmldflags}' >> _conf.txt
 echo 'CFLAG  += %{rpmcflags}'  >> _conf.txt
 %{__make}
-
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -54,7 +50,6 @@ install src/icons1/icon.xpm $RPM_BUILD_ROOT%{_pixmapsdir}/%{name}.xpm
 
 %find_lang %{name}
 
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -62,7 +57,6 @@ rm -rf $RPM_BUILD_ROOT
 %update_desktop_database_post
 umask 022
 update-mime-database %{_datadir}/mime ||:
-
 
 %postun
 %update-desktop-database-postun
@@ -76,6 +70,6 @@ fi
 %defattr(644,root,root,755)
 %doc NEWS README
 %attr(755,root,root) %{_bindir}/*
-%{_mandir}/*
+%{_mandir}/*/*
 %{_desktopdir}/*
 %{_pixmapsdir}/*
