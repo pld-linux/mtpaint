@@ -71,5 +71,5 @@ fi
 %doc NEWS README
 %attr(755,root,root) %{_bindir}/*
 %{_mandir}/*/*
-%{_desktopdir}/*
+%{_desktopdir}/*.desktop
 %{_pixmapsdir}/*
