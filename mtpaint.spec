@@ -1,5 +1,5 @@
 Summary:	A simple painting program
-Summary(pl):	Prosty program graficzny
+Summary(pl.UTF-8):   Prosty program graficzny
 Name:		mtpaint
 Version:	2.30
 Release:	1
@@ -25,7 +25,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %description
 A simple GTK+ paint program.
 
-%description -l pl
+%description -l pl.UTF-8
 Prosty program graficzny oparty na bibliotece GTK+.
 
 %prep
