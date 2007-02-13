@@ -1,5 +1,5 @@
 Summary:	A simple painting program
-Summary(pl.UTF-8):   Prosty program graficzny
+Summary(pl.UTF-8):	Prosty program graficzny
 Name:		mtpaint
 Version:	2.30
 Release:	1
