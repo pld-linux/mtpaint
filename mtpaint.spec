@@ -1,12 +1,12 @@
 Summary:	A simple painting program
 Summary(pl.UTF-8):	Prosty program graficzny
 Name:		mtpaint
-Version:	2.30
+Version:	3.31
 Release:	1
-License:	GPL v2
+License:	GPL v3+
 Group:		X11/Applications/Graphics
 Source0:	http://dl.sourceforge.net/mtpaint/%{name}-%{version}.tar.bz2
-# Source0-md5:	8582e791cf781d2f6ba85460823da247
+# Source0-md5:	fbe34eb25f96b6092403115f1f6ab387
 Source1:	%{name}.desktop
 URL:		http://mtpaint.sourceforge.net/
 BuildRequires:	gettext-devel
@@ -15,11 +15,13 @@ BuildRequires:	gtk+2-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel
 BuildRequires:	libtiff-devel
+BuildRequires:	openjpeg-devel
 BuildRequires:	perl-tools-pod
 BuildRequires:	sed >= 4.0
 BuildRequires:	zlib-devel
 Requires:	desktop-file-utils
 Requires:	shared-mime-info
+Suggests:	gifsicle
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -32,7 +34,8 @@ Prosty program graficzny oparty na bibliotece GTK+.
 %setup -q
 
 %build
-%configure man pod intl
+%configure man pod intl jp2 \
+	--mandir=%{_mandir}/man1
 echo 'LDFLAG += %{rpmldflags}' >> _conf.txt
 echo 'CFLAG  += %{rpmcflags}'  >> _conf.txt
 %{__make}
@@ -40,7 +43,6 @@ echo 'CFLAG  += %{rpmcflags}'  >> _conf.txt
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%{__sed} -i "s,=\"/usr,=\"$RPM_BUILD_ROOT/usr," _conf.txt
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
@@ -59,7 +61,7 @@ umask 022
 update-mime-database %{_datadir}/mime ||:
 
 %postun
-%update-desktop-database-postun
+%update_desktop_database_postun
 if [ $1 = 0 ]; then
         umask 022
         update-mime-database %{_datadir}/mime
