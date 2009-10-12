@@ -8,6 +8,7 @@ Group:		X11/Applications/Graphics
 Source0:	http://dl.sourceforge.net/mtpaint/%{name}-%{version}.tar.bz2
 # Source0-md5:	fbe34eb25f96b6092403115f1f6ab387
 Source1:	%{name}.desktop
+Patch0:		%{name}-flags.patch
 URL:		http://mtpaint.sourceforge.net/
 BuildRequires:	gettext-devel
 BuildRequires:	giflib-devel
@@ -32,12 +33,17 @@ Prosty program graficzny oparty na bibliotece GTK+.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 %configure man pod intl jp2 \
 	--mandir=%{_mandir}/man1
-echo 'LDFLAG += %{rpmldflags}' >> _conf.txt
-echo 'CFLAG  += %{rpmcflags}'  >> _conf.txt
+cat >> _conf.txt <<'EOF'
+LDFLAG = %{rpmldflags}
+CFLAG += %{rpmcflags}
+CC = %{__cc} -Wall -Wno-pointer-sign
+EOF
+
 %{__make}
 
 %install

@@ -1,0 +1,52 @@
+diff -ur mtpaint-3.31.orig/configure mtpaint-3.31/configure
+--- mtpaint-3.31.orig/configure	2009-04-15 20:46:26.000000000 +0200
++++ mtpaint-3.31/configure	2009-10-12 23:46:03.784369172 +0200
+@@ -482,7 +482,7 @@
+ 		AS_NEEDED="-Wl,--as-needed -Wl,--unresolved-symbols=ignore-in-shared-libs"
+ 	fi
+ 
+-	L_EX=$AS_NEEDED
++	#L_EX=$AS_NEEDED
+ 	I_EX=$HAVE_FUNCS
+ 	if [ "$NGIF" != "NO" ]
+ 	then
+@@ -552,7 +552,7 @@
+ 
+ 	if [ "$DEBUG" = NO ]
+ 	then
+-		GTK_LIB="$GTK_LIB -s"
++		GTK_LIB="$GTK_LIB"
+ 	else
+ 		I_EX="$I_EX -ggdb"
+ 	fi
+@@ -595,7 +595,7 @@
+ 
+ 	I_EX="$I_EX -DVERSION=\"\\\"$MT_VERSION\"\\\""
+ 	GTK_INCLUDE="$GTK_INCLUDE $I_EX"
+-	echo "LDFLAG = $L_EX $GTK_LIB" >> $GTK_FILE
++	echo "LIB = $L_EX $GTK_LIB" >> $GTK_FILE
+ 
+ 	if [ "$CFLAG" ]
+ 	then
+diff -ur mtpaint-3.31.orig/src/Makefile mtpaint-3.31/src/Makefile
+--- mtpaint-3.31.orig/src/Makefile	2008-11-08 18:31:59.000000000 +0100
++++ mtpaint-3.31/src/Makefile	2009-10-12 23:40:38.721067506 +0200
+@@ -1,7 +1,8 @@
+ include ../_conf.txt
+ 
+ CFLAGS = $(CFLAG)
+-LDFLAGS = $(LDFLAG) $(GLIB_LIB)
++LDFLAGS = $(LDFLAG)
++LIBS = $(LIB) $(GLIB_LIB)
+ 
+ BIN = mtpaint
+ 
+@@ -10,7 +11,7 @@
+ 	toolbar.o channels.o csel.o shifter.o spawn.o font.o fpick.o icons.o cpick.o
+ 
+ $(BIN): main.o $(OBJS)
+-	$(CC) main.o $(OBJS) -o $(BIN) $(LDFLAGS)
++	$(CC) $(CFLAGS) $(LDFLAGS) main.o $(OBJS) -o $(BIN) $(LIBS)
+ 
+ .c.o:
+ 	$(CC) $(CFLAGS) -c -o $*.o $*.c
