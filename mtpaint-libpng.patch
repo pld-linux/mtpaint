@@ -1,0 +1,20 @@
+--- mtpaint-3.31/src/png.c.orig	2010-02-22 22:41:06.935087701 +0100
++++ mtpaint-3.31/src/png.c	2010-02-22 22:41:55.195067047 +0100
+@@ -539,7 +539,7 @@
+ 	if (settings->bpp == 3)
+ 	{
+ 		png_set_strip_16(png_ptr);
+-		png_set_gray_1_2_4_to_8(png_ptr);
++		png_set_expand_gray_1_2_4_to_8(png_ptr);
+ 		png_set_palette_to_rgb(png_ptr);
+ 		png_set_gray_to_rgb(png_ptr);
+ 
+@@ -644,7 +644,7 @@
+ 		png_set_strip_alpha(png_ptr);
+ 		png_set_packing(png_ptr);
+ 		if ((color_type == PNG_COLOR_TYPE_GRAY) && (bit_depth < 8))
+-			png_set_gray_1_2_4_to_8(png_ptr);
++			png_set_expand_gray_1_2_4_to_8(png_ptr);
+ 		for (i = 0; i < height; i++)
+ 		{
+ 			row_pointers[i] = settings->img[CHN_IMAGE] + i * width;

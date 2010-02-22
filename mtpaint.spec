@@ -2,19 +2,20 @@ Summary:	A simple painting program
 Summary(pl.UTF-8):	Prosty program graficzny
 Name:		mtpaint
 Version:	3.31
-Release:	1
+Release:	2
 License:	GPL v3+
 Group:		X11/Applications/Graphics
 Source0:	http://dl.sourceforge.net/mtpaint/%{name}-%{version}.tar.bz2
 # Source0-md5:	fbe34eb25f96b6092403115f1f6ab387
 Source1:	%{name}.desktop
 Patch0:		%{name}-flags.patch
+Patch1:		%{name}-libpng.patch
 URL:		http://mtpaint.sourceforge.net/
 BuildRequires:	gettext-devel
 BuildRequires:	giflib-devel
 BuildRequires:	gtk+2-devel
 BuildRequires:	libjpeg-devel
-BuildRequires:	libpng-devel
+BuildRequires:	libpng-devel >= 1.2.27
 BuildRequires:	libtiff-devel
 BuildRequires:	openjpeg-devel
 BuildRequires:	perl-tools-pod
@@ -34,6 +35,7 @@ Prosty program graficzny oparty na bibliotece GTK+.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 %build
 %configure man pod intl jp2 \
