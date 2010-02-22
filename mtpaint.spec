@@ -38,7 +38,7 @@ Prosty program graficzny oparty na bibliotece GTK+.
 %patch1 -p1
 
 %build
-%configure man pod intl jp2 \
+%configure GIF man pod intl jpeg jp2 tiff \
 	--mandir=%{_mandir}/man1
 cat >> _conf.txt <<'EOF'
 LDFLAG = %{rpmldflags}
