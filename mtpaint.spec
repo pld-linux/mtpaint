@@ -19,7 +19,9 @@ BuildRequires:	libpng-devel >= 1.2.27
 BuildRequires:	libtiff-devel
 BuildRequires:	openjpeg-devel
 BuildRequires:	perl-tools-pod
+BuildRequires:	pkgconfig
 BuildRequires:	sed >= 4.0
+BuildRequires:	which
 BuildRequires:	zlib-devel
 Requires:	desktop-file-utils
 Requires:	shared-mime-info
