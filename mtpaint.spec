@@ -1,15 +1,13 @@
 Summary:	A simple painting program
 Summary(pl.UTF-8):	Prosty program graficzny
 Name:		mtpaint
-Version:	3.31
-Release:	3
+Version:	3.40
+Release:	1
 License:	GPL v3+
 Group:		X11/Applications/Graphics
 Source0:	http://dl.sourceforge.net/mtpaint/%{name}-%{version}.tar.bz2
-# Source0-md5:	fbe34eb25f96b6092403115f1f6ab387
+# Source0-md5:	957c8035dd62c6bfdb594cd0a4467d22
 Source1:	%{name}.desktop
-Patch0:		%{name}-flags.patch
-Patch1:		%{name}-libpng.patch
 URL:		http://mtpaint.sourceforge.net/
 BuildRequires:	gettext-devel
 BuildRequires:	giflib-devel
@@ -36,15 +34,14 @@ Prosty program graficzny oparty na bibliotece GTK+.
 
 %prep
 %setup -q
-%patch0 -p1
-%patch1 -p1
 
 %build
-%configure GIF man pod intl jpeg jp2 tiff \
-	--mandir=%{_mandir}/man1
+./configure gtk2 thread GIF man pod intl jpeg jp2 tiff \
+	--mandir=%{_mandir}/man1 \
+	--prefix=%{_prefix}
 cat >> _conf.txt <<'EOF'
-LDFLAG = %{rpmldflags}
-CFLAG += %{rpmcflags}
+LDFLAG += %{rpmldflags}
+CFLAG  += %{rpmcflags}
 CC = %{__cc} -Wall -Wno-pointer-sign
 EOF
 
