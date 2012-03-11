@@ -2,7 +2,7 @@ Summary:	A simple painting program
 Summary(pl.UTF-8):	Prosty program graficzny
 Name:		mtpaint
 Version:	3.40
-Release:	3
+Release:	4
 License:	GPL v3+
 Group:		X11/Applications/Graphics
 Source0:	http://dl.sourceforge.net/mtpaint/%{name}-%{version}.tar.bz2
