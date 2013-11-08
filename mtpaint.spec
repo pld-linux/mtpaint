@@ -2,7 +2,7 @@ Summary:	A simple painting program
 Summary(pl.UTF-8):	Prosty program graficzny
 Name:		mtpaint
 Version:	3.40
-Release:	5
+Release:	6
 License:	GPL v3+
 Group:		X11/Applications/Graphics
 Source0:	http://dl.sourceforge.net/mtpaint/%{name}-%{version}.tar.bz2
@@ -39,9 +39,9 @@ Prosty program graficzny oparty na bibliotece GTK+.
 ./configure gtk2 thread GIF man pod intl jpeg jp2 tiff \
 	--mandir=%{_mandir}/man1 \
 	--prefix=%{_prefix}
-cat >> _conf.txt <<'EOF'
+cat >> _conf.txt <<EOF
 LDFLAG += %{rpmldflags}
-CFLAG  += %{rpmcflags}
+CFLAG  += %{rpmcflags} $(pkg-config --cflags-only-I libopenjpeg1)
 CC = %{__cc} -Wall -Wno-pointer-sign
 EOF
 
