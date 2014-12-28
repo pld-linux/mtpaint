@@ -9,7 +9,7 @@ Source0:	http://dl.sourceforge.net/mtpaint/%{name}-%{version}.tar.bz2
 # Source0-md5:	957c8035dd62c6bfdb594cd0a4467d22
 Source1:	%{name}.desktop
 URL:		http://mtpaint.sourceforge.net/
-BuildRequires:	gettext-devel
+BuildRequires:	gettext-tools
 BuildRequires:	giflib-devel
 BuildRequires:	gtk+2-devel
 BuildRequires:	libjpeg-devel
