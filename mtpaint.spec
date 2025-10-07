@@ -50,7 +50,6 @@ CC="%{__cc}" \
 cat >> _conf.txt <<'EOF'
 LDFLAG += %{rpmldflags}
 CFLAG  += %{rpmcflags}
-#CC = %{__cc} -Wall -Wno-pointer-sign -Wno-pointer-to-int-cast
 EOF
 
 %{__make}
