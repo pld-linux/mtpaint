@@ -1,0 +1,13 @@
+--- mtpaint-3.50/configure.orig	2020-12-31 16:02:20.000000000 +0100
++++ mtpaint-3.50/configure	2025-10-07 17:42:21.078823837 +0200
+@@ -376,8 +376,8 @@ IS_LIB()
+ }
+ CAN_DO()
+ {
+-	echo "main() { $1; }" > _conf.c
+-	$MT_TESTCOMP _conf.c -o _conf.tmp > /dev/null 2>&1
++	echo "int main() { $1; }" > _conf.c
++	$MT_TESTCOMP -Wno-implicit-function-declaration _conf.c -o _conf.tmp >> config.log 2>&1
+ }
+ HAVE_FUNC()
+ {

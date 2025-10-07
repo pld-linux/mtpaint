@@ -8,6 +8,8 @@ Group:		X11/Applications/Graphics
 Source0:	https://downloads.sourceforge.net/mtpaint/%{name}-%{version}.tar.bz2
 # Source0-md5:	bd50c57259e22a96989b9c923743d1d0
 Source1:	%{name}.desktop
+Patch0:		%{name}-gcc.patch
+Patch1:		%{name}-flags.patch
 URL:		https://mtpaint.sourceforge.net/
 BuildRequires:	gettext-tools
 BuildRequires:	giflib-devel
@@ -36,16 +38,19 @@ Prosty program graficzny oparty na bibliotece GTK+.
 
 %prep
 %setup -q
+%patch -P0 -p1
+%patch -P1 -p1
 
 %build
+CC="%{__cc}" \
 ./configure debug gtk3 thread GIF man pod intl jpeg jp2v2 lcms2 tiff \
 	--mandir=%{_mandir} \
 	--prefix=%{_prefix}
 
-cat >> _conf.txt <<EOF
+cat >> _conf.txt <<'EOF'
 LDFLAG += %{rpmldflags}
 CFLAG  += %{rpmcflags}
-CC = %{__cc} -Wall -Wno-pointer-sign
+#CC = %{__cc} -Wall -Wno-pointer-sign -Wno-pointer-to-int-cast
 EOF
 
 %{__make}

@@ -1,52 +1,59 @@
-diff -ur mtpaint-3.31.orig/configure mtpaint-3.31/configure
---- mtpaint-3.31.orig/configure	2009-04-15 20:46:26.000000000 +0200
-+++ mtpaint-3.31/configure	2009-10-12 23:46:03.784369172 +0200
-@@ -482,7 +482,7 @@
- 		AS_NEEDED="-Wl,--as-needed -Wl,--unresolved-symbols=ignore-in-shared-libs"
+--- mtpaint-3.50/configure.orig	2025-10-07 20:02:50.525411967 +0200
++++ mtpaint-3.50/configure	2025-10-07 20:02:53.965432132 +0200
+@@ -492,10 +492,6 @@ then
+ # !!! Questionable, now; need retesting, and proper cross-configuring too
+ 	# With Clang, target pentium4; no incompatible HW expected in the wild,
+ 	# and anything lesser results in much slower code
+-	case $ARCH in
+-		i?86)	HAVE_CLANG && MARCH=${MARCH:--march=pentium4}
+-			MARCH=${MARCH:--march=i386};;
+-	esac
+ 	CFLAGS="-O2 $MARCH"
+ 	# Add optimizations which are proven to really make mtPaint code faster
+ 	if HAVE_CLANG
+@@ -506,8 +502,6 @@ then
+ 	else # GCC 3.x
+ 		CFLAGS="$CFLAGS -fweb"
  	fi
+-	# Do not add unneeded dependencies
+-	AS_NEEDED="-Wl,--as-needed"
+ 	# Disable GTK+ debug code
+ 	DEFS="$DEFS -DGTK_NO_CHECK_CASTS -DG_DISABLE_CAST_CHECKS"
+ elif [ "$OPTS" = DEBUG ]
+@@ -523,7 +517,6 @@ else # $OPTS = CFLAGS
+ 	MARCH=
+ 	# And leave CFLAGS alone
+ fi
+-[ "$OPTS" != DEBUG ] && LDFLAGS="-s $LDFLAGS" # Strip debug info
+ # Set Windows-specific flags
+ if [ "$OS" != "${OS#MinGW/}" ]
+ then
+@@ -834,7 +827,8 @@ MT_PREFIX="$MT_PREFIX"
+ MT_DATAROOT="$MT_DATAROOT"
+ MT_LANG_DEST="$MT_LOCDIR"
+ MT_MAN_DEST="$MT_MANDIR"
+-LDFLAG = $AS_NEEDED $LIBS $LDFLAGS
++LDFLAG = $AS_NEEDED $LDFLAGS
++LIB = $LIBS
+ CFLAG = $DEFS $INCLUDES $CPPFLAGS $CFLAGS
+ subdirs = $MAKE_DIRS
+ BIN_INSTALL="$MT_BINDIR"
+--- mtpaint-3.50/src/Makefile.orig	2020-03-04 03:44:05.000000000 +0100
++++ mtpaint-3.50/src/Makefile	2025-10-07 19:59:11.350793850 +0200
+@@ -3,6 +3,7 @@ include ../_conf.txt
+ # Generate identical object files if possible
+ CFLAGS = $(CFLAG) $(SET_RANDSEED)
+ LDFLAGS = $(LDFLAG)
++LIBS = $(LIB)
  
--	L_EX=$AS_NEEDED
-+	#L_EX=$AS_NEEDED
- 	I_EX=$HAVE_FUNCS
- 	if [ "$NGIF" != "NO" ]
- 	then
-@@ -552,7 +552,7 @@
+ BIN = mtpaint$(EXEEXT)
  
- 	if [ "$DEBUG" = NO ]
- 	then
--		GTK_LIB="$GTK_LIB -s"
-+		GTK_LIB="$GTK_LIB"
- 	else
- 		I_EX="$I_EX -ggdb"
- 	fi
-@@ -595,7 +595,7 @@
+@@ -12,7 +13,7 @@ OBJS = main.o mainwindow.o inifile.o png
+ 	cpick.o thread.o vcode.o
  
- 	I_EX="$I_EX -DVERSION=\"\\\"$MT_VERSION\"\\\""
- 	GTK_INCLUDE="$GTK_INCLUDE $I_EX"
--	echo "LDFLAG = $L_EX $GTK_LIB" >> $GTK_FILE
-+	echo "LIB = $L_EX $GTK_LIB" >> $GTK_FILE
+ $(BIN): $(OBJS)
+-	$(CC) $(OBJS) -o $(BIN) $(LDFLAGS)
++	$(CC) $(CFLAG) $(LDFLAGS) $(OBJS) -o $(BIN) $(LIBS)
  
- 	if [ "$CFLAG" ]
- 	then
-diff -ur mtpaint-3.31.orig/src/Makefile mtpaint-3.31/src/Makefile
---- mtpaint-3.31.orig/src/Makefile	2008-11-08 18:31:59.000000000 +0100
-+++ mtpaint-3.31/src/Makefile	2009-10-12 23:40:38.721067506 +0200
-@@ -1,7 +1,8 @@
- include ../_conf.txt
+ $(OBJS): *.h graphics/*
  
- CFLAGS = $(CFLAG)
--LDFLAGS = $(LDFLAG) $(GLIB_LIB)
-+LDFLAGS = $(LDFLAG)
-+LIBS = $(LIB) $(GLIB_LIB)
- 
- BIN = mtpaint
- 
-@@ -10,7 +11,7 @@
- 	toolbar.o channels.o csel.o shifter.o spawn.o font.o fpick.o icons.o cpick.o
- 
- $(BIN): main.o $(OBJS)
--	$(CC) main.o $(OBJS) -o $(BIN) $(LDFLAGS)
-+	$(CC) $(CFLAGS) $(LDFLAGS) main.o $(OBJS) -o $(BIN) $(LIBS)
- 
- .c.o:
- 	$(CC) $(CFLAGS) -c -o $*.o $*.c
